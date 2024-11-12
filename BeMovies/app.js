@@ -12,6 +12,7 @@ let labelSignUp=document.querySelector(".labelSignUp");
 let labelLogin=document.querySelector(".labelLogin");
 
 let selectedGenre=document.querySelector(".genre-selected");
+
 let genres=document.querySelectorAll(".genre");
 
 const swiper = new Swiper('.swiper', {
@@ -66,6 +67,7 @@ const createModalLogin=(newUser)=>{
   })
 }
 
+// affiche les détails du film quand clique
 hoverImages.forEach(elem=>elem.addEventListener("click",e=>{
   popUpDetailsMovie.showModal();
   overlay.style.display = 'block';
@@ -93,6 +95,7 @@ labelLogin.addEventListener("click",e=>{
   changeElementsForLabelLogin();
 })
 
+//change le genre sélectionné en fonction du genre choisi par le user
 genres.forEach(elem=>elem.addEventListener("click",e=>{
   selectedGenre.innerText=elem.innerText;
 }));
