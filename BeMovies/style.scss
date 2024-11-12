@@ -5,9 +5,8 @@ $interfamily:"Inter";
 
 $textColor:white;
 $beColor:#CC0000;
-$mainBackground:#191B20;
-$popupBackground:black;
-
+$mainBackground:#191B20; //background page principale
+$popupBackground:black;//background pop up
 
 *{
     padding: 0;
@@ -16,13 +15,15 @@ $popupBackground:black;
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; // scroll pour clic sur search, etc..
 }
 
 a{
     text-decoration: none;
 }
 
+
+//page web en elle-même
 .page{
     display: flex;
     flex-direction: column;
@@ -32,6 +33,8 @@ a{
     height:100%;
     background-color:$mainBackground;
 }
+
+
 
 header{
     width: 100%;
@@ -43,6 +46,7 @@ header{
     margin-bottom: 73px;
 }
 
+// titre BeMovies en haut à gauche pour le header et en bas à droite pour le footer
 .title{
     font-family: $inriaFamily;
     font-size: 36px;
@@ -55,6 +59,7 @@ header{
     }
 }
 
+// navigation en haut à droite et en bas de page
 .tab{
     display: flex;
     flex-direction: row;
@@ -77,10 +82,12 @@ header{
     }
 }
 
+// créer la marge en haut à droite du header
 .topRight{
     margin-right: 180px;
 }
 
+// barre de recherche
 .research{
     display: flex;
     margin-bottom: 61px;
@@ -108,6 +115,8 @@ header{
     }
 }
 
+
+//sections pour films récents et par recherche avec les swiper
 .searched-movies,.latest-movies{
     display: flex;
     flex-direction: column;
@@ -115,7 +124,6 @@ header{
     width: 1075px;
     height: 380px;
     margin-bottom: 95px;
-
     p{
         color: $textColor;
         font-family: $interfamily;
@@ -127,38 +135,40 @@ header{
     }
 }
 
-
+// swiper avec les différentes images
 .swiper {
     text-align: center;
     width: 102%;
     height: 100%;
     padding-left:15px;
     padding-right: 15px;
-
-    .swiper-slide{
-        position: relative;
-    }
-
-    .swiper-button-next,.swiper-button-prev{
-        width: 18px;
-        height: 18px;
-        position: absolute;
-    }
-
-    .swiper-button-next{
-        right: 0%;
-    }
-
-    .swiper-button-prev{
-        left: 0%;
-    }
-
-    .movieImage{
-        width: 234px;
-        height: 351px;
-    }
 }
 
+.swiper-slide{
+    position: relative;
+}
+
+.swiper-button-next,.swiper-button-prev{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+}
+
+.swiper-button-next{
+    right: 0%;
+}
+
+.swiper-button-prev{
+    left: 0%;
+}
+
+.movieImage{
+    width: 234px;
+    height: 351px;
+}
+
+
+//hover sur l'image
 .hoverImage{
     opacity: 0;
     position: absolute;
@@ -210,15 +220,7 @@ header{
     }
 }
 
-.genre{
-    padding: 7px 10px;
-    border-radius: 8px;
-    &:hover{
-        background-color: $beColor;
-        cursor: pointer;
-    }
-}
-
+//section par genre de film
 .movies-genre{
     margin-bottom: 30px;
     width: 1075px;
@@ -234,34 +236,44 @@ header{
         font-weight: 400;
         line-height: 19.36px;
     }
+}
 
-    .nameSection{
-        margin-bottom: 46px;
-    }
+.nameSection{
+    margin-bottom: 46px;
+}
 
-    .genres{
-        display: flex;
-        flex-direction: row;
-        width: 595px;
-        justify-content: space-between;
-        margin-bottom: 26px;
-    }
+.genres{
+    display: flex;
+    flex-direction: row;
+    width: 595px;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
 
-    .line{
-        width:595px;
-        border: 1px solid $textColor;
-        margin-bottom: 28px;
-    }
+.line{
+    width:595px;
+    border: 1px solid $textColor;
+    margin-bottom: 28px;
+}
 
-    .movies{
-        width: 100%;
-        p{
-            margin-bottom: 10px;
-            margin-left: 30px;
-        }
+.movies{
+    width: 100%;
+    p{
+        margin-bottom: 10px;
+        margin-left: 30px;
     }
 }
 
+.genre{
+    padding: 7px 10px;
+    border-radius: 8px;
+    &:hover{
+        background-color: $beColor;
+        cursor: pointer;
+    }
+}
+
+//section footer
 footer{
     width: 100%;
     height: 186px;
@@ -269,50 +281,18 @@ footer{
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    .copyright{
-        font-family:$inriaFamily;
-        font-size: 14px;
-        font-weight: 300;
-        line-height: 16.79px;
-        color:#B8B8B8;
-        margin-right: 180px;
-    }
 }
 
-.detailMovie{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 742px;
-    height: 526px;
-    background-color: $popupBackground;
-    position: absolute;
-    top: 50%;
-    left: 25%;
-    color: $textColor;
-    border:none;
-    h1{
-        color: $beColor;
-    }
-
-    img{
-        width: 234px;
-        height:351px;
-        border: 1px solid $textColor;
-    }
-
-    button{
-        border-radius: 100px;
-        position: absolute;
-        top:11px;
-        left:12px;
-        width:16px;
-        height:16px;
-    }
+.copyright{
+    font-family:$inriaFamily;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16.79px;
+    color:#B8B8B8;
+    margin-right: 180px;
 }
 
+// pop up sign in quand click sur register ou signin
 .popUpSignIn {
     top: 50%;
     left: 50%;
@@ -323,16 +303,15 @@ footer{
     z-index: 20;
     color: $textColor;
     border: none;
+}
 
-    .closePopUpSignIn{
-        margin-top: 11px;
-        margin-left: 14px;
-        margin-bottom: 39px;
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-    }
-
+.closePopUpSignIn{
+    margin-top: 11px;
+    margin-left: 14px;
+    margin-bottom: 39px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
 .radio{
@@ -358,20 +337,21 @@ footer{
         height: 54px;
         cursor: pointer;
     }
+}
 
-    .labelSignUp{
-        border-top: 1px solid $textColor;
-        border-left: 1px solid $textColor;
-        border-bottom: 1px solid $textColor;
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-    }
 
-    .labelLogin{
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        background-color: $beColor;
-    }
+.labelSignUp{
+    border-top: 1px solid $textColor;
+    border-left: 1px solid $textColor;
+    border-bottom: 1px solid $textColor;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.labelLogin{
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: $beColor;
 }
 
 .fieldsForAuthentication{
@@ -458,6 +438,7 @@ footer{
     }
 }
 
+//pop up quand click sur film
 .dialogMovie{
     top: 50%;
     left: 50%;
@@ -558,6 +539,7 @@ footer{
     margin-bottom:29px;
 }
 
+//fond noir lors de l'apparition des pop up
 .overlay {
     position: fixed;
     width: 100%;

@@ -123,21 +123,26 @@ header {
   padding-left: 15px;
   padding-right: 15px;
 }
-.swiper .swiper-slide {
+
+.swiper-slide {
   position: relative;
 }
-.swiper .swiper-button-next, .swiper .swiper-button-prev {
+
+.swiper-button-next, .swiper-button-prev {
   width: 18px;
   height: 18px;
   position: absolute;
 }
-.swiper .swiper-button-next {
+
+.swiper-button-next {
   right: 0%;
 }
-.swiper .swiper-button-prev {
+
+.swiper-button-prev {
   left: 0%;
 }
-.swiper .movieImage {
+
+.movieImage {
   width: 234px;
   height: 351px;
 }
@@ -189,15 +194,6 @@ header {
   color: #CC0000;
 }
 
-.genre {
-  padding: 7px 10px;
-  border-radius: 8px;
-}
-.genre:hover {
-  background-color: #CC0000;
-  cursor: pointer;
-}
-
 .movies-genre {
   margin-bottom: 30px;
   width: 1075px;
@@ -214,27 +210,40 @@ header {
   font-weight: 400;
   line-height: 19.36px;
 }
-.movies-genre .nameSection {
+
+.nameSection {
   margin-bottom: 46px;
 }
-.movies-genre .genres {
+
+.genres {
   display: flex;
   flex-direction: row;
   width: 595px;
   justify-content: space-between;
   margin-bottom: 26px;
 }
-.movies-genre .line {
+
+.line {
   width: 595px;
   border: 1px solid white;
   margin-bottom: 28px;
 }
-.movies-genre .movies {
+
+.movies {
   width: 100%;
 }
-.movies-genre .movies p {
+.movies p {
   margin-bottom: 10px;
   margin-left: 30px;
+}
+
+.genre {
+  padding: 7px 10px;
+  border-radius: 8px;
+}
+.genre:hover {
+  background-color: #CC0000;
+  cursor: pointer;
 }
 
 footer {
@@ -245,44 +254,14 @@ footer {
   align-items: center;
   justify-content: space-between;
 }
-footer .copyright {
+
+.copyright {
   font-family: "Inria Sans";
   font-size: 14px;
   font-weight: 300;
   line-height: 16.79px;
   color: #B8B8B8;
   margin-right: 180px;
-}
-
-.detailMovie {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 742px;
-  height: 526px;
-  background-color: black;
-  position: absolute;
-  top: 50%;
-  left: 25%;
-  color: white;
-  border: none;
-}
-.detailMovie h1 {
-  color: #CC0000;
-}
-.detailMovie img {
-  width: 234px;
-  height: 351px;
-  border: 1px solid white;
-}
-.detailMovie button {
-  border-radius: 100px;
-  position: absolute;
-  top: 11px;
-  left: 12px;
-  width: 16px;
-  height: 16px;
 }
 
 .popUpSignIn {
@@ -296,7 +275,8 @@ footer .copyright {
   color: white;
   border: none;
 }
-.popUpSignIn .closePopUpSignIn {
+
+.closePopUpSignIn {
   margin-top: 11px;
   margin-left: 14px;
   margin-bottom: 39px;
@@ -327,14 +307,16 @@ footer .copyright {
   height: 54px;
   cursor: pointer;
 }
-.radio .labelSignUp {
+
+.labelSignUp {
   border-top: 1px solid white;
   border-left: 1px solid white;
   border-bottom: 1px solid white;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
-.radio .labelLogin {
+
+.labelLogin {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   background-color: #CC0000;
