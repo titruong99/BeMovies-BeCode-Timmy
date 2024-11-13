@@ -135,6 +135,10 @@ header{
     }
 }
 
+.searched-movies {
+    display: none;
+}
+
 // swiper avec les différentes images
 .swiper {
     text-align: center;
@@ -242,13 +246,46 @@ header{
     margin-bottom: 46px;
 }
 
+
+
+
+/* ---!!! Antoine : petite modif swiper des genres début !!!--- */
+
 .genres{
-    display: flex;
-    flex-direction: row;
-    width: 595px;
-    justify-content: space-between;
-    margin-bottom: 26px;
+    /* display: flex;
+    flex-direction: row; */
+    /* width: 595px; */
+    /* justify-content: space-between; */
+    /* margin-bottom: 26px; */
+    width: 600px;
+    height: 35px;
 }
+
+.swiper-container-genres {
+    width: 100%;
+    height: 100%;
+    /* margin: 20px auto; */
+    padding-bottom: 26px;
+    position: relative;
+}
+
+.swiper-container-genres .swiper-wrapper-genres {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-container-genres .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* padding: 10px; */
+}
+
+/* ---!!! Antoine : petite modif swiper des genres fin !!!--- */
+
+
+
 
 .line{
     width:595px;
