@@ -13,7 +13,11 @@ let labelLogin=document.querySelector(".labelLogin"); /* fin var pour le popup r
 
 let selectedGenre=document.querySelector(".genre-selected"); /* var pour le dernier swiper quand on choisi le genre */
 
-let genres=document.querySelectorAll(".genre"); /* var pour les diff genres */
+let genresMovies=document.querySelector(".genres"); /* var pour les diff genres */
+let dialogGenres=document.querySelector(".dialogGenres");
+let popUpGenres=document.querySelector(".popUpGenres");
+let genreChosen;
+
 
 /* array de tous les genres */
 const genreMap = {
@@ -37,15 +41,17 @@ const genreMap = {
   10752: 'Guerre',
   37: 'Western'
 };
-
+let categories=Object.entries(genreMap);
 
 /* ---!!! les films search par la barre de recherche !!!--- */
 
 let searchMoviesContainer = document.querySelector(".searched-movies");
 let researchBar = document.querySelector("#input-research-movie");
 let researchBtn = document.querySelector(".btn-research-movie");
+let swiperSearch = document.querySelector(".searched-movies .swiper");
 let swiperWrapperSearch = document.querySelector(".searched-movies .swiper .swiper-wrapper");
 let researchParag = document.querySelector(".research-parag"); /* var pour changer le  */
+let wrongResearch;
 
 const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const apiKey = "be3a85fe71718ce8fc3ac8557fe5001d";
@@ -55,8 +61,9 @@ researchBtn.addEventListener('click', () => {
   const recherche = researchBar.value.trim();
   if (recherche) {
       searchMoviesContainer.style.display = "block";
-      fetchMovies(recherche);
-      researchParag.innerText = `Results for "${recherche}"`;
+      fetchMovies(recherche).then(res=>{
+        res.length==0?researchParag.innerText = `No results for "${recherche}"`:researchParag.innerText = `Results for "${recherche}"`;
+      });
   }
 });
 
@@ -65,6 +72,7 @@ async function fetchMovies(recherche) {
       const response = await fetch(`${apiUrlSearch}?api_key=${apiKey}&query=${encodeURIComponent(recherche)}`);
       const data = await response.json();
       displayResultsSwiper(data.results);
+      return data.results;
   } catch (error) {
       console.error('Erreur lors de la récupération des films:', error);
   }
@@ -72,9 +80,19 @@ async function fetchMovies(recherche) {
 
 function displayResultsSwiper(movies) {
   swiperWrapperSearch.innerHTML = '';
+  swiperSearch.style.display="block";
+  if(searchMoviesContainer.lastChild==wrongResearch){
+    searchMoviesContainer.removeChild(wrongResearch);
+  }
   if (movies.length === 0) {
-    swiperWrapperSearch.textContent = 'Aucun film trouvé.';
-      return;
+    swiperSearch.style.display="none";
+    wrongResearch = document.createElement("img");
+    wrongResearch.classList.add("movieImage");
+    wrongResearch.src ="/images/error-results.png";
+    wrongResearch.alt = "";
+    wrongResearch.style.marginLeft="400px";
+    searchMoviesContainer.appendChild(wrongResearch);
+    return movies.length;
   }
   movies.forEach(movie => {
       let slideElement = document.createElement('div');
@@ -86,6 +104,18 @@ function displayResultsSwiper(movies) {
         imageMovie.src = `${imageBaseUrl}${movie.poster_path}`;
         imageMovie.alt = movie.title;
         slideElement.appendChild(imageMovie);
+      }else{
+        let imageNotLoaded = document.createElement("div");
+        imageNotLoaded.classList.add("imageNotLoaded");
+        imageNotLoaded.alt = movie.title;
+
+        let p=document.createElement("p");
+        p.innerText="Image unavailable";
+
+        imageNotLoaded.appendChild(p);
+        slideElement.appendChild(imageNotLoaded);
+        console.log("image unload");
+        
       }
 
       let imageHover = document.createElement("div");
@@ -180,22 +210,6 @@ function displayMoviesInSwiper(movies) {
 
       imageHover.addEventListener("click", function () {
         showMovieModal(movie.id);}
-        /* e=>{
-        document.querySelector(".imagePopUpMovie").src = `${imageBaseUrl}${movie.poster_path}`;
-        document.querySelector(".movieTitle").innerText = movie.title;
-        document.querySelector('.movieYear').innerText = movie.release_date ? movie.release_date.split('-')[0] : 'Inconnue';
-        document.querySelector('.note').innerText = movie.vote_average.toFixed(1);
-        document.querySelector('.movieGenre').innerText =  movie.genre_ids.map(id => genreMap[id]).filter(Boolean).join(' / ');
-        document.querySelector('.movieDescription').innerText = movie.overview;
-        popUpDetailsMovie.showModal();
-        overlay.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-        document.querySelector(".closeDialogMovie").addEventListener("click",e=>{
-          popUpDetailsMovie.close();
-          overlay.style.display = "none";
-          document.body.style.overflow = 'auto';
-        })
-        } */
       );
 
       let imageHoverContent = document.createElement("div");
@@ -263,30 +277,77 @@ async function fetchGenres() {
   try {
       const response = await fetch(`${apiUrlGenres}?api_key=${apiKey}&language=fr-FR`);
       const data = await response.json();
-      displayGenres(data.genres);
+      createGenres();
   } catch (error) {
       console.error('Erreur lors de la récupération des genres:', error);
   }
 }
 
-function displayGenres(genres) {
-  genres.forEach(genre => {
-      const genreSlide = document.createElement('div');
-      genreSlide.classList.add('swiper-slide');
-      genreSlide.classList.add('genre');
-      genreSlide.innerText = genre.name;
-      genreSlide.dataset.genreId = genre.id;
-      genreSlide.addEventListener('click', () => fetchMoviesByGenre(genre.id));
-      swiperWrapperGenres.appendChild(genreSlide);
-  });
+const updateGenreChosen=(name,p)=>{
+  selectedGenre.innerText=name;
+  genreChosen.classList.remove("genre-chosen");
+  p.classList.add("genre-chosen");
+  genreChosen=p;
+}
 
-  new Swiper('.swiper-container-genres', {
-      direction: 'horizontal',
-      slidesPerView: 6,
-      spaceBetween: 20,
-      freeMode: true,
-      loop: false,
+const creatFirstGenres=()=>{
+  for(let i=0;i<6;i++){
+    let p=document.createElement("p");
+    p.innerText=categories[i][1];
+    p.classList.add("genre");
+    p.addEventListener('click', () =>{
+      updateGenreChosen(categories[i][1],p)
+      fetchMoviesByGenre(categories[i][0]);
+    });
+    if(i==0){
+      genreChosen=p;
+      p.classList.add("genre-chosen");
+    }
+    genresMovies.append(p);
+  }
+}
+
+const createOtherContent=(categories)=>{
+  if(popUpGenres.children.length==0){
+    for(let i=0;i<categories.length;i++){
+      let p=document.createElement("p");
+      p.innerText=categories[i][1];
+      p.classList.add("genre");
+      p.addEventListener('click', () =>{
+        updateGenreChosen(categories[i][1],p)
+        fetchMoviesByGenre(categories[i][0]);
+        dialogGenres.close();
+        overlay.style.display = "none";
+        document.body.style.overflow = 'auto';
+      });
+      popUpGenres.append(p);
+    }
+  }
+}
+
+const createOtherParagraph=(categories)=>{
+  let other=document.createElement("p");
+  other.innerText="...";
+  other.classList.add("genre");
+  other.addEventListener("click",e=>{
+    createOtherContent(categories);
+    dialogGenres.showModal();
+    overlay.style.display = "block";
+    document.body.style.overflow = 'hidden';
+    document.querySelector(".closeDialogGenres").addEventListener("click",e=>{
+      dialogGenres.close();
+      overlay.style.display = "none";
+      document.body.style.overflow = 'auto';
+    })
   });
+  genresMovies.append(other);
+}
+
+const createGenres=()=>{
+  selectedGenre.innerText=categories[0][1];
+  fetchMoviesByGenre(categories[0][0])
+  creatFirstGenres(categories);
+  createOtherParagraph(categories.slice(6));
 }
 
 async function fetchMoviesByGenre(genreId) {
@@ -372,21 +433,6 @@ function displayMovies(movies) {
 
 fetchGenres();
 
-
-
-// On met le swiper directement dans les fonctions de call API
-/* const swiper = new Swiper('.swiper', {
-    slidesPerView: 4, 
-    direction: 'horizontal',
-    loop: true,
-    spaceBetween:-2,
-  
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-}); */
-
 const changeElementsForLabelLogin=()=>{
   labelSignUp.style.backgroundColor="black";
   labelSignUp.style.borderTop = '1px solid white';
@@ -469,25 +515,6 @@ async function showMovieModal(movieId) {
   })
 }
 
-
-
-// affiche les détails du film quand clique
-/* hoverImages.forEach(elem=>elem.addEventListener("click",e=>{
-  popUpDetailsMovie.showModal();
-  overlay.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  document.querySelector(".closeDialogMovie").addEventListener("click",e=>{
-    popUpDetailsMovie.close();
-    overlay.style.display = "none";
-    document.body.style.overflow = 'auto';
-  })
-})); */
-
-
-
-
-
-
 signIns.forEach(elem=>elem.addEventListener("click",e=>{
   createModalLogin(false);
 }))
@@ -504,13 +531,9 @@ labelLogin.addEventListener("click",e=>{
   changeElementsForLabelLogin();
 })
 
-//change le genre sélectionné en fonction du genre choisi par le user
-genres.forEach(elem=>elem.addEventListener("click",e=>{
-  selectedGenre.innerText=elem.innerText;
-}));
-
 
 //vider la barre de recherche à chaque fois qu'on load la page
 window.onload = function() {
   researchBar.value = '';
 };
+

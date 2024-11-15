@@ -247,16 +247,14 @@ header{
 }
 
 
-
-
 /* ---!!! Antoine : petite modif swiper des genres début !!!--- */
 
 .genres{
-    /* display: flex;
-    flex-direction: row; */
-    /* width: 595px; */
-    /* justify-content: space-between; */
-    /* margin-bottom: 26px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 595px;
+    margin-bottom: 26px;
     width: 600px;
     height: 35px;
 }
@@ -302,12 +300,25 @@ header{
 }
 
 .genre{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
     padding: 7px 10px;
     border-radius: 8px;
     &:hover{
         background-color: $beColor;
         cursor: pointer;
     }
+}
+
+.genre-chosen{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background-color: $beColor;
+    
 }
 
 //section footer
@@ -486,7 +497,7 @@ footer{
     background-color: $popupBackground;
 }
 
-.closeDialogMovie {
+.closeDialogMovie,.closeDialogGenres {
     width: 16px;
     height: 16px;
     margin-top: 11px;
@@ -584,4 +595,37 @@ footer{
     background-color: rgba(0, 0, 0, 0.5);
     display: none;
     z-index: 10;
+}
+
+.imageNotLoaded{
+    margin-left: 20px;
+    width: 234px;
+    height: 351px;
+    display: flex;
+    align-items: center;
+    background-color: #141517;
+    color: #888;
+
+    p{
+        margin-left: 55px;
+    }
+}
+
+.dialogGenres{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    z-index: 20;
+    background-color: $popupBackground;
+
+    p{
+        color: $textColor;
+    }
+}
+
+.popUpGenres{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
